@@ -52,19 +52,15 @@
   }
 
   .dates {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 7px;
-  }
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;   /* ⬅️ 7 → 4 */
+}
 
-  .date {
-    height: 40px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-weight: 800;
-    position: relative;
-  }
+.date {
+  height: 34px;   /* ⬅️ 40 → 34 */
+  font-size: 14px; /* 살짝 컴팩트 */
+}
 
   .today {
   position: relative;
@@ -146,19 +142,22 @@
   }
 
   for (let d = 1; d <= daysInMonth; d++) {
-    const el = document.createElement("div");
-    el.className = "date";
+  const el = document.createElement("div");
+  el.className = "date";
+
+  if (d === date) {
+    el.classList.add("today");
+    el.innerHTML = `<span>${d}</span>`;
+  } else {
     el.textContent = d;
-
-    if (d === date) {
-      el.classList.add("today");
-    }
-
-    datesEl.appendChild(el);
   }
+
+  datesEl.appendChild(el);
+}
 </script>
 
 </body>
 </html>
+
 
 
