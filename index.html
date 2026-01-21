@@ -13,7 +13,7 @@
 
   .calendar {
     width: 350px;
-    padding: 20px;
+    padding: 10px 20px; /* 상하 10px, 좌우 20px */
     background: #a7d0fb;
     border-radius: 28px;
     box-sizing: border-box;
@@ -24,13 +24,14 @@
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
-    margin-bottom: 20px;
+    margin-bottom: 10px; /* 밑 여백 줄임 */
   }
 
   .year {
     font-size: 45px;
     font-weight: 800;
-    margin-left: 30px
+    margin-left: 20px;
+    margin-top: 0;
     line-height: 1;
   }
 
@@ -64,20 +65,40 @@
     align-items: center;
     font-weight: 800;
     position: relative;
+    color: #0b1b33;
   }
 
+  /* 오늘 날짜 숫자가 하트 안에 들어가는 스타일 */
   .today {
-    background: #ff4d6d;
-    color: #fff;
-    border-radius: 50%;
+    position: relative;
+    width: 25px;
+    height: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 800;
+    color: #fff; /* 숫자 색상 */
+    font-size: 14px;
   }
 
   .today::before {
     content: "❤";
     position: absolute;
-    top: -25px;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #ff4d6d; /* 하트 색상 */
     font-size: 20px;
-    color: #ff4d6d;
+    z-index: 0; /* 숫자보다 뒤에 위치 */
+  }
+
+  .today span {
+    position: relative;
+    z-index: 1; /* 숫자를 하트 위에 표시 */
   }
 </style>
 </head>
@@ -87,10 +108,7 @@
 <div class="calendar">
   <div class="header">
     <div class="year" id="year"></div>
-    <div class="rate">
-      6% / YEAR<br>
-      67% / MONTH
-    </div>
+    <div class="rate" id="rate"></div>
   </div>
 
   <div class="weekdays">
@@ -109,6 +127,22 @@
 
   document.getElementById("year").textContent = year;
 
+  // 퍼센트 계산 (정수)
+  const startOfYear = new Date(year, 0, 1);
+  const startOfNextYear = new Date(year + 1, 0, 1);
+  const elapsedYear = today - startOfYear;
+  const totalYear = startOfNextYear - startOfYear;
+  const percentYear = Math.floor((elapsedYear / totalYear) * 100);
+
+  const startOfMonth = new Date(year, month, 1);
+  const startOfNextMonth = new Date(year, month + 1, 1);
+  const elapsedMonth = today - startOfMonth;
+  const totalMonth = startOfNextMonth - startOfMonth;
+  const percentMonth = Math.floor((elapsedMonth / totalMonth) * 100);
+
+  document.getElementById("rate").innerHTML = `${percentYear}% / YEAR<br>${percentMonth}% / MONTH`;
+
+  // 달력 날짜 그리기
   const firstDay = new Date(year, month, 1).getDay(); // 일=0
   const daysInMonth = new Date(year, month + 1, 0).getDate();
 
@@ -124,10 +158,12 @@
   for (let d = 1; d <= daysInMonth; d++) {
     const el = document.createElement("div");
     el.className = "date";
-    el.textContent = d;
 
     if (d === date) {
       el.classList.add("today");
+      el.innerHTML = `<span>${d}</span>`; // 숫자가 하트 안에 들어가도록
+    } else {
+      el.textContent = d;
     }
 
     datesEl.appendChild(el);
@@ -136,6 +172,3 @@
 
 </body>
 </html>
-
-
-
