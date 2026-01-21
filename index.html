@@ -12,8 +12,8 @@
   }
 
   .calendar {
-    width: 300px;
-    padding: 20px;
+    width: 330px;
+    padding: 24px;
     background: #a7d0fb;
     border-radius: 28px;
     box-sizing: border-box;
@@ -24,14 +24,13 @@
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
-    margin-bottom: 14px;
+    margin-bottom: 16px;
   }
 
   .year {
-    font-size: 48px;
-    font-weight: 900;
+    font-size: 50px;
+    font-weight: 800;
     line-height: 1;
-    margin-left: 14px;
   }
 
   .rate {
@@ -44,7 +43,7 @@
   .weekdays {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
-    margin-bottom: 8px;
+    margin-bottom: 7px;
     font-size: 13px;
     font-weight: 700;
     text-align: center;
@@ -52,53 +51,33 @@
   }
 
   .dates {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  gap: 4px;   /* ⬅️ 7 → 4 */
-}
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 8px;
+  }
 
-.date {
-  height: 34px;   /* ⬅️ 40 → 34 */
-  font-size: 14px; /* 살짝 컴팩트 */
-}
+  .date {
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 800;
+    position: relative;
+  }
 
   .today {
-  position: relative;
-  width: 38px;
-  height: 34px;
-  background: #ff4d6d;
-  transform: rotate(-45deg);
-  color: white;
-  font-weight: 900;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
+    background: #ff4d6d;
+    color: #fff;
+    border-radius: 50%;
+  }
 
-.today span {
-  transform: rotate(45deg);
-  z-index: 2;
-}
-
-.today::before,
-.today::after {
-  content: "";
-  position: absolute;
-  width: 38px;
-  height: 34px;
-  background: #ff4d6d;
-  border-radius: 50%;
-}
-
-.today::before {
-  top: -17px;
-  left: 0;
-}
-
-.today::after {
-  left: 17px;
-  top: 0;
-}
+  .today::before {
+    content: "❤";
+    position: absolute;
+    top: -25px;
+    font-size: 30px;
+    color: #ff4d6d;
+  }
 </style>
 </head>
 
@@ -142,22 +121,17 @@
   }
 
   for (let d = 1; d <= daysInMonth; d++) {
-  const el = document.createElement("div");
-  el.className = "date";
-
-  if (d === date) {
-    el.classList.add("today");
-    el.innerHTML = `<span>${d}</span>`;
-  } else {
+    const el = document.createElement("div");
+    el.className = "date";
     el.textContent = d;
-  }
 
-  datesEl.appendChild(el);
-}
+    if (d === date) {
+      el.classList.add("today");
+    }
+
+    datesEl.appendChild(el);
+  }
 </script>
 
 </body>
 </html>
-
-
-
