@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<title>Notion Calendar</title>
+<style>
+  body {
+    margin: 0;
+    background: #2b1b16;
+    font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", sans-serif;
+    color: #fff;
+  }
+
+  .calendar {
+    width: 360px;
+    padding: 20px;
+  }
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    color: #ff7a00;
+    margin-bottom: 10px;
+  }
+
+  .year {
+    font-size: 42px;
+    font-weight: 800;
+  }
+
+  .rate {
+    font-size: 14px;
+    text-align: right;
+  }
+
+  .weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    margin: 10px 0;
+    font-size: 13px;
+    color: #ff7a00;
+    text-align: center;
+  }
+
+  .dates {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 6px;
+  }
+
+  .date {
+    height: 38px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    position: relative;
+  }
+
+  .heart {
+    background: #ff7a00;
+    color: #000;
+    font-weight: 700;
+  }
+
+  .heart::before {
+    content: "❤";
+    position: absolute;
+    top: -18px;
+    font-size: 18px;
+    color: #ff7a00;
+  }
+</style>
+</head>
+<body>
+
+<div class="calendar">
+  <div class="header">
+    <div class="year" id="year"></div>
+    <div class="rate">6% / year<br>67% / month</div>
+  </div>
+
+  <div class="weekdays">
+    <div>lun</div><div>mar</div><div>mié</div>
+    <div>jue</div><div>vie</div><div>sáb</div><div>dom</div>
+  </div>
+
+  <div class="dates" id="dates"></div>
+</div>
+
+<script>
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = today.getMonth(); // 0-based
+  const date = today.getDate();
+
+  document.getElementById("year").textContent = year;
+
+  const firstDay = new Date(year, month, 1).getDay(); // 일=0
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+  const datesEl = document.getElementById("dates");
+
+  // 월요일 시작 보정
+  const offset = (firstDay + 6) % 7;
+
+  for (let i = 0; i < offset; i++) {
+    datesEl.appendChild(document.createElement("div"));
+  }
+
+  for (let d = 1; d <= daysInMonth; d++) {
+    const el = document.createElement("div");
+    el.className = "date";
+    el.textContent = d;
+
+    if (d === date) {
+      el.classList.add("heart");
+    }
+
+    datesEl.appendChild(el);
+  }
+</script>
+
+</body>
+</html>
